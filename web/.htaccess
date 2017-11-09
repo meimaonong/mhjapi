@@ -1,0 +1,5 @@
+Options +FollowSymlinks -Multiviews
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule .* index.php
