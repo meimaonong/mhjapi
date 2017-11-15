@@ -109,7 +109,7 @@ class User extends \yii\db\ActiveRecord
         $res = [
         	'code' => 0,
         	'msg'=> '',
-        	'data' => $access_token
+        	'data' => $rObj
         ];
 
         return $res;
