@@ -67,6 +67,24 @@ class WorkItem extends \yii\db\ActiveRecord
         ];
     }
 
+    public static function getWorkItems($param)
+    {
+        $work_id = $param['work_id'];
+        
+        $workItems = static::find()
+            ->where(['work_id' => $work_id, 'del_flag' => 0])
+            ->asArray()
+            ->all();
+        
+        $res = [
+            'code' => 0,
+            'msg' => '',
+            'data' => $workItems
+        ];
+
+        return $res;
+    }
+
     public static function saveWorkItem($param)
     {
         $work_item_id = $param['work_item_id'];

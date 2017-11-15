@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use app\models\WorkItem;
 use app\libs\Utils;
+use app\models\Category;
 
 /**
  * This is the model class for table "work".
@@ -65,6 +66,44 @@ class Work extends \yii\db\ActiveRecord
         ];
     }
 
+    public static function getHomeData()
+    {
+        $data = [];
+
+        $data['main'] = static::find()
+            ->where(['main_flag' => 1])
+            ->asArray()
+            ->all();
+        
+        $categorys = Category::getCategorylist();
+        $data['categorys'] = $categorys['data'];
+
+        foreach ($data['categorys'] as &$category) {
+            $category['worklist'] = static::find()
+                ->where([
+                    'category_id' => $category['category_id'],
+                    // 'category_flag' => 1,
+                    // 'work_check_status'=>3, 
+                    // 'work_buy_status'=>0,
+                    'del_flag'=>0
+                ])
+                ->orderBy('work_id desc')
+                ->limit(4)
+                ->asArray()
+                ->all();
+        }
+
+        $res = [
+        	'code' => 0,
+        	'msg'=> '',
+        	'data' => $data
+        ];
+
+        return $res;
+
+        
+    }
+
     public static function getWork($param)
     {
         $work_id = $param['work_id'];
@@ -73,6 +112,9 @@ class Work extends \yii\db\ActiveRecord
             ->where(['work_id' => $work_id])
             ->asArray()
             ->one();
+
+        $workItems = WorkItem::getWorkItems($param);
+        $work['workItems'] = $workItems['data'];
 
         $res = [
         	'code' => 0,
