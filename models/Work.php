@@ -72,6 +72,7 @@ class Work extends \yii\db\ActiveRecord
 
         $data['main'] = static::find()
             ->where(['main_flag' => 1])
+            ->limit(6)
             ->asArray()
             ->all();
         

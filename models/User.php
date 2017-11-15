@@ -119,7 +119,7 @@ class User extends \yii\db\ActiveRecord
     public static function getUsers($param) 
     {
 
-        $user_list = User::find()
+        $user_list = static::find()
             ->select([
                 'user_id',
                 'tel',

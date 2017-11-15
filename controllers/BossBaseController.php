@@ -16,6 +16,22 @@ class BossBaseController extends Controller
     // 关闭csrf
     public $enableCsrfValidation = false;
 
+    /**
+     * @inheritdoc
+     */
+    public function actions()
+    {
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
+            ],
+            'captcha' => [
+                'class' => 'yii\captcha\CaptchaAction',
+                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+            ],
+        ];
+    }
+
     public function beforeAction($action)
     {
         // 权限判断
