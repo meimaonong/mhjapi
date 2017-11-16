@@ -151,21 +151,39 @@ class Work extends \yii\db\ActiveRecord
     {
         $category_id = $param['category_id'];
 
+        $page = $param['page'] ? $param['page'] : 1;
+        $page_size = 20;
+
+        $condition = [
+            'category_id' => $category_id, 
+            // 'work_check_status'=>3, 
+            // 'work_buy_status'=>0,
+            'del_flag'=>0
+        ];
+
+        $start = ($page - 1) * $page_size;
+
         $work_list = static::find()
-            ->where([
-                'category_id' => $category_id, 
-                'work_check_status'=>3, 
-                'work_buy_status'=>0,
-                'del_flag'=>0
-            ])
+            ->where([])
+            ->limit($page_size, $start)
             ->orderBy('work_id desc')
             ->asArray()
             ->all();
 
+        $count = static::find()
+            ->where($condition)
+            ->count();
+        
+        $pages = ceil($count / $page_size);
+
         $res = [
         	'code' => 0,
         	'msg'=> '',
-        	'data' => $work_list
+        	'data' => [
+                'work_list' => $work_list,
+                'pages' => $pages,
+                'currentpage' => $page
+            ]
         ];
 
         return $res;

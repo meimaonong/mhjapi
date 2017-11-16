@@ -86,7 +86,7 @@ class DataController extends BaseController
 
     public function actionMakeData()
     {
-        $pic_url = 'https://www.meimaonong.com/uploads/imgs/';
+        $pic_url = 'https://www.meimaonong.com/uploads/imgs2/';
         $t = Utils::getCurrentDateTime();
 
         $categorys = Category::find()
@@ -115,7 +115,7 @@ class DataController extends BaseController
                 } else {
                     $address->district_id = 110105;
                 }
-                $address->address_detail = '详细地址';
+                $address->address_detail = '测试详细地址';
                 $address->created_time = $t;
                 $address->updated_time = $t;
                 $address->save();
@@ -125,8 +125,8 @@ class DataController extends BaseController
 
             for ($x=0;$x<3;$x++) {
                 $album = new Album();
-                $album->album_title = '专辑' . $x;
-                $album->album_des = '描述' . $x;
+                $album->album_title = '测试mc' . $x;
+                $album->album_des = '测试ms' . $x;
                 $album->user_id = $user_id;
                 $album->created_time = $t;
                 $album->updated_time = $t;
@@ -140,14 +140,14 @@ class DataController extends BaseController
                     
                     for ($x2=0; $x2 < 20; $x2++) { 
                         $work = new Work();
-                        $work->work_title = '作品标题' . $x2;
+                        $work->work_title = '测试' . $x2;
                         $t1 = rand(1, 20);
                         $work->work_img = $pic_url . $t1 . '.jpg';
                         $work->work_price = 3200;
                         $work->w = 1200;
                         $work->h = 800;
                         $work->ratio = $this->getCount($t1);
-                        $work->work_des = '作品描述';
+                        $work->work_des = '测试内容';
                         if ($x2>3&&$x2<8) {
                             $work->category_flag = 1;
                         }
@@ -166,7 +166,7 @@ class DataController extends BaseController
                             $message = new Message();
                             $message->user_id = $user_id;
                             $message->type = 1;
-                            $message->message_content = '消息内容';
+                            $message->message_content = '测试消息内容';
                             $message->work_id = $work_id;
                             $message->created_time = $t;
                             $message->updated_time = $t;
@@ -176,7 +176,7 @@ class DataController extends BaseController
                         for ($x3=0; $x3 < 10; $x3++) { 
                             $workItem = new WorkItem();
                             $workItem->work_id = $work_id;
-                            $workItem->work_item_des = '爽肤水的水淀粉据了解，看看谁的';
+                            $workItem->work_item_des = '测试内容测试内容';
                             $workItem->num = $x3;
                             $t2 = rand(1, 20);
                             $workItem->work_item_img = $pic_url . $t2 . '.jpg';
