@@ -12,6 +12,7 @@ use app\models\Address;
 use app\models\Album;
 use app\models\Category;
 use app\models\Message;
+use app\models\SellRecord;
 use app\models\User;
 
 use app\libs\Utils;
@@ -38,6 +39,37 @@ class DataController extends BaseController
 
         return $res;
 
+    }
+
+    //
+    public function actionGetMyData()
+    {
+        $param = $_REQUEST;
+        $user_id = $param['user_id'];
+
+        $res = [];
+
+        $res['wait_num'] = Work::find()
+            ->where(['user_id' => $user_id, 'work_check_status' => 1,'del_flag' => 0])
+            ->count();
+        $res['sell_num'] = SellRecord::find()
+            ->where(['seller_id' => $user_id, 'del_flag' => 0])
+            ->count();
+        $res['buy_num'] = SellRecord::find()
+            ->where(['buyer_id' => $user_id, 'del_flag' => 0])
+            ->count();
+        $res['msg_num'] = Message::find()
+            ->where(['user_id' => $user_id, 'is_read' => 0,'del_flag' => 0])
+            ->count();
+        $res['album_num'] = Album::find()
+            ->where(['user_id' => $user_id, 'del_flag' => 0])
+            ->count();
+
+        return [
+            'code' => 0,
+            'msg' => '',
+            'data' => $res
+        ];
     }
 
     private function getCount($num) {
