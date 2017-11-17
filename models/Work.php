@@ -272,12 +272,18 @@ class Work extends \yii\db\ActiveRecord
         $work_id = $work['work_id'];
         $user_id = $work['user_id'];
         $work_title = $work['work_title'];
-        $work_des = $work['work_des'];
+        $work_img = $work['work_img'];
+        $w = $work['w'];
+        $h = $work['h'];
+        $ratio = $work['ratio'];
+        $work_price = $work['work_price'];
         $category_id = $work['category_id'];
         $album_id = $work['album_id'];
         $workItems = $work['workItems'];
 
         $save_id = '';
+
+        $t = Utils::getCurrentDateTime();
 
         if ($work_id && $user_id && $album_id && $category_id) {
             
@@ -285,10 +291,13 @@ class Work extends \yii\db\ActiveRecord
                 'work_id' => $work_id,
                 'user_id' => $user_id
             ]);
-            $work->album_id = $album_id;
-            $work->category_id = $category_id;
             $work->work_title = $work_title;
-            $work->work_des = $work_des;
+            $work->work_img = $work_img;
+            $work->w = $w;
+            $work->h = $h;
+            $work->ratio = $ratio;
+            $work->category_id = $category_id;
+            $work->album_id = $album_id;
             $work->save();
 
             $save_id = $work->attributes['work_id'];
@@ -301,10 +310,13 @@ class Work extends \yii\db\ActiveRecord
         } else {
             $work = new static();
             $work->user_id = $user_id;
-            $work->album_id = $album_id;
-            $work->category_id = $category_id;
             $work->work_title = $work_title;
-            $work->work_des = $work_des;
+            $work->work_img = $work_img;
+            $work->w = $w;
+            $work->h = $h;
+            $work->ratio = $ratio;
+            $work->category_id = $category_id;
+            $work->album_id = $album_id;
             $work->created_time = $t;
             $work->updated_time = $t;
             $work->save();

@@ -90,7 +90,6 @@ class WorkItem extends \yii\db\ActiveRecord
         $work_item_id = $param['work_item_id'];
         $work_id = $param['work_id'];
         $work_item_title = $param['work_item_title'];
-        $work_item_des = $param['work_item_des'];
         $num = $param['num'];
         $work_item_img = $param['work_item_img'];
         $w = $param['w'];
@@ -104,7 +103,6 @@ class WorkItem extends \yii\db\ActiveRecord
             ]);
             $workItem->work_id = $work_id;
             $workItem->work_item_title = $work_item_title;
-            $workItem->work_item_des = $work_item_des;
             $workItem->num = $num;
             $workItem->work_item_img = $work_item_img;
             $workItem->w = $w;
