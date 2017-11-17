@@ -46,6 +46,19 @@ class WorkController extends BaseController
 
     }
 
+    // delWork
+    public function actionDelWork()
+    {
+        $param = $_REQUEST;
+
+        //print_r($param);exit;
+
+        $res = Work::delWork($param);
+
+        return $res;
+
+    }
+
     // getWorklist
     public function actionGetWorklistByCategory()
     {

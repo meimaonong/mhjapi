@@ -5,6 +5,8 @@ namespace app\models;
 use Yii;
 use app\libs\Utils;
 
+use app\models\Work;
+
 /**
  * This is the model class for table "album".
  *
@@ -65,6 +67,21 @@ class Album extends \yii\db\ActiveRecord
             ->where(['user_id' => $user_id, 'del_flag'=>0])
             ->asArray()
             ->all();
+
+        foreach ($albums as &$album) {
+            $album['num'] = Work::find()
+                ->where(['album_id' => $album['album_id'], 'del_flag' => 0])
+                ->count();
+            $work = Work::find()
+                ->where(['album_id' => $album['album_id'], 'del_flag' => 0])
+                ->asArray()
+                ->one();
+            if ($work) {
+                $album['cover'] = $work['work_img'];
+            } else {
+                $album['cover'] = '';
+            }
+        }
         
         $res = [
             'code' => 0,

@@ -186,6 +186,7 @@ class DataController extends BaseController
                         if ($x2>10&&$x2<13) {
                             $work->main_flag = 1;
                         }
+                        $work->user_id = $user_id;
                         $work->category_id = $category_id;
                         $work->album_id = $album_id;
                         $work->created_time = $t;

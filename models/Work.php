@@ -105,6 +105,31 @@ class Work extends \yii\db\ActiveRecord
         
     }
 
+    public static function delWork($param)
+    {
+        $work_id = $param['work_id'];
+        $user_id = $param['user_id'];
+
+        $work = static::findOne([
+            'work_id' => $work_id,
+            'user_id' => $user_id
+        ]);
+
+        $work->del_flag = 1;
+        $work->save();
+
+        $save_id = $work->attributes['work_id'];
+
+        $res = [
+        	'code' => 0,
+        	'msg'=> '',
+        	'data' => $save_id
+        ];
+
+        return $res;
+
+    }
+
     public static function getWork($param)
     {
         $work_id = $param['work_id'];
@@ -133,10 +158,10 @@ class Work extends \yii\db\ActiveRecord
         $album_id = $param['album_id'];
 
         $work_list = static::find()
-            ->where(['user_id' => $user_id, 'album_id' => $album_id])
+            ->where(['user_id' => $user_id, 'album_id' => $album_id, 'del_flag'=>0])
             ->asArray()
+            ->orderBy('work_id desc')
             ->all();
-
         $res = [
         	'code' => 0,
         	'msg'=> '',
