@@ -68,7 +68,8 @@ class FileController extends BaseController
 
 		        $fileOriginName = $handle->file_dst_name;
 		        $imageWidth = $handle->image_src_x;
-		        $imageHeight = $handle->image_src_y;
+				$imageHeight = $handle->image_src_y;
+				$ratio = round(intval($imageWidth)/intval($imageHeight), 2);
 
 		        if ($handle->processed) {
 
@@ -105,7 +106,8 @@ class FileController extends BaseController
 		            		'fileName'  => $fileOriginName,
 		            		'fileUrl'   => ($dir_dest . $dayDir.'/' . $fileOriginName),
 		            		'imageWidth' => $imageWidth,
-		            		'imageHeight' => $imageHeight,
+							'imageHeight' => $imageHeight,
+							'ratio' => $ratio,
 		            		'msg'       => 'File uploaded with success'
 		            	]
 		            ];
