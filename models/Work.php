@@ -6,6 +6,7 @@ use Yii;
 use app\models\WorkItem;
 use app\libs\Utils;
 use app\models\Category;
+use app\models\Album;
 use app\models\SellRecord;
 
 /**
@@ -142,6 +143,18 @@ class Work extends \yii\db\ActiveRecord
 
         $workItems = WorkItem::getWorkItems($param);
         $work['workItems'] = $workItems['data'];
+        if ($work['category_id']) {
+            $category = Category::findOne([
+                'category_id' => $work['category_id']
+            ]);
+            $work['category_name'] = $category['category_name'];
+        }
+        if ($work['album_id']) {
+            $album = Album::findOne([
+                'album_id' => $work['album_id']
+            ]);
+            $work['album_title'] = $album['album_title'];
+        }
 
         $res = [
         	'code' => 0,

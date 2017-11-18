@@ -104,12 +104,11 @@ class User extends \yii\db\ActiveRecord
             $user->updated_time = Utils::getCurrentDateTime();
             $flag = $user->save();
         }
-
         
         $res = [
         	'code' => 0,
         	'msg'=> '',
-        	'data' => $rObj
+        	'data' => $access_token
         ];
 
         return $res;

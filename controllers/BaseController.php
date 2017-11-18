@@ -8,6 +8,8 @@ use yii\web\Response;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 
+use app\models\User;
+
 /**
 * BaseController
 */
@@ -34,18 +36,55 @@ class BaseController extends Controller
 
     public function beforeAction($action)
     {
-        // 权限判断
-        if (true) {
-           return parent::beforeAction($action); 
-        } else {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            Yii::$app->response->data = array(
-                'status' => -1,
-                'message' => '请先登录',
-                'url' => \Yii::$app->request->url
-            );
-            return false;
+        //print_r($_REQUEST);exit;
+        $filerActions = [
+            '/v1/user/wx-login',
+            '/v1/data/get-home-data',
+            '/v1/category/get-categorylist',
+            '/v1/work/get-worklist-by-category',
+            '/v1/work/get-work',
+        ];
+
+        $url = \Yii::$app->request->url;
+
+        if (!in_array($url, $filerActions)) {
+            $headers = Yii::$app->request->headers;
+            $token = $headers['access-token'];
+            if ($token) {
+                $user = User::findOne([
+                    'weixin_access_token' => $token,
+                    'status' => 0,
+                    'del_flag' => 0
+                ]);
+
+                if ($user) {
+                    $_REQUEST['user_id'] = $user['user_id'];
+                } else {
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+                    Yii::$app->response->data = array(
+                        'code' => 1,
+                        'status' => -1,
+                        'message' => '请先登录',
+                        'url' => \Yii::$app->request->url
+                    );
+                    return false;
+                }
+
+                
+            } else {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                Yii::$app->response->data = array(
+                    'code' => 1,
+                    'status' => -1,
+                    'message' => '请先登录',
+                    'url' => \Yii::$app->request->url
+                );
+                return false;
+            }
+            
         }
+
+        return parent::beforeAction($action); 
 
         
     }
