@@ -38,7 +38,6 @@ class WorkItem extends \yii\db\ActiveRecord
     {
         return [
             [['work_id', 'num', 'w', 'h', 'del_flag'], 'integer'],
-            [['work_item_des'], 'required'],
             [['work_item_des'], 'string'],
             [['ratio'], 'number'],
             [['created_time', 'updated_time'], 'safe'],
@@ -74,6 +73,7 @@ class WorkItem extends \yii\db\ActiveRecord
         $workItems = static::find()
             ->where(['work_id' => $work_id, 'del_flag' => 0])
             ->asArray()
+            ->orderBy('num asc')
             ->all();
         
         $res = [
@@ -90,6 +90,7 @@ class WorkItem extends \yii\db\ActiveRecord
         $work_item_id = $param['work_item_id'];
         $work_id = $param['work_id'];
         $work_item_title = $param['work_item_title'];
+        $work_item_des = $param['work_item_des'];
         $num = $param['num'];
         $work_item_img = $param['work_item_img'];
         $w = $param['w'];
@@ -103,6 +104,7 @@ class WorkItem extends \yii\db\ActiveRecord
             ]);
             $workItem->work_id = $work_id;
             $workItem->work_item_title = $work_item_title;
+            $workItem->work_item_des = $work_item_des;
             $workItem->num = $num;
             $workItem->work_item_img = $work_item_img;
             $workItem->w = $w;
@@ -113,10 +115,8 @@ class WorkItem extends \yii\db\ActiveRecord
             $save_id = $workItem->attributes['work_item_id'];
 
         } else {
-            
+
             $workItem = new static();
-       
-            
             $workItem->work_id = $work_id;
             $workItem->work_item_title = $work_item_title;
             $workItem->work_item_des = $work_item_des;
@@ -127,10 +127,7 @@ class WorkItem extends \yii\db\ActiveRecord
             $workItem->ratio = $ratio;
             $workItem->created_time = $t;
             $workItem->updated_time = $t;
-            
-  
-            $flag = $workItem->save();
-            //print_r($flag);exit;
+            $workItem->save();
             $save_id = $workItem->attributes['work_item_id'];
         }
 

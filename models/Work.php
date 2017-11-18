@@ -367,10 +367,11 @@ class Work extends \yii\db\ActiveRecord
     // saveWork
     public static function saveWork($param)
     {
-        $work = $param['work'];
+
+        $work = json_decode($param['work'], true);
 
         $work_id = $work['work_id'];
-        $user_id = $work['user_id'];
+        $user_id = $param['user_id'];
         $work_title = $work['work_title'];
         $work_img = $work['work_img'];
         $w = $work['w'];
@@ -391,19 +392,23 @@ class Work extends \yii\db\ActiveRecord
                 'work_id' => $work_id,
                 'user_id' => $user_id
             ]);
+            
             $work->work_title = $work_title;
             $work->work_img = $work_img;
             $work->w = $w;
             $work->h = $h;
             $work->ratio = $ratio;
+            $work->work_price = $work_price;
             $work->category_id = $category_id;
             $work->album_id = $album_id;
             $work->save();
 
             $save_id = $work->attributes['work_id'];
 
-            foreach ($workItems as $workItem) {
+
+            foreach ($workItems as $key => $workItem) {
                 $workItem['work_id'] = $save_id;
+                $workItem['num'] = $key;
                 WorkItem::saveWorkItem($workItem);
             }
 
