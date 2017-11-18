@@ -6,6 +6,7 @@ use Yii;
 use app\models\WorkItem;
 use app\libs\Utils;
 use app\models\Category;
+use app\models\SellRecord;
 
 /**
  * This is the model class for table "work".
@@ -146,6 +147,92 @@ class Work extends \yii\db\ActiveRecord
         	'code' => 0,
         	'msg'=> '',
         	'data' => $work
+        ];
+
+        return $res;
+
+    }
+
+    public static function getWaitWorks($param)
+    {
+        $user_id = $param['user_id'];
+
+        $work_list = static::find()
+            ->where(['user_id' => $user_id, 'work_check_status' => 1, 'del_flag'=>0])
+            ->asArray()
+            ->orderBy('updated_time desc')
+            ->all();
+        $res = [
+        	'code' => 0,
+        	'msg'=> '',
+        	'data' => [
+                'work_list' => $work_list,
+                'count' => count($work_list)
+            ]
+        ];
+
+        return $res;
+
+    }
+
+    public static function getBuyWorks($param)
+    {
+        $user_id = $param['user_id'];
+
+        $work_list = SellRecord::find()
+            ->where(['buyer_id' => $user_id, 'del_flag'=>0])
+            ->asArray()
+            ->orderBy('sell_record_id desc')
+            ->all();
+
+        unset($param['user_id']);
+
+        foreach ($work_list as &$item) {
+            $param['work_id'] = intval($item['work_id']);
+            $work = static::find()->where($param)->asArray()->one();
+            
+            $item = array_merge($item, $work);
+        }
+        
+        $res = [
+        	'code' => 0,
+        	'msg'=> '',
+        	'data' => [
+                'work_list' => $work_list,
+                'count' => count($work_list)
+            ]
+        ];
+
+        return $res;
+
+    }
+
+    public static function getSellWorks($param)
+    {
+        $user_id = $param['user_id'];
+
+        $work_list = SellRecord::find()
+            ->where(['seller_id' => $user_id, 'del_flag'=>0])
+            ->asArray()
+            ->orderBy('sell_record_id desc')
+            ->all();
+
+        unset($param['user_id']);
+
+        foreach ($work_list as &$item) {
+            $param['work_id'] = intval($item['work_id']);
+            $work = static::find()->where($param)->asArray()->one();
+            
+            $item = array_merge($item, $work);
+        }
+        
+        $res = [
+        	'code' => 0,
+        	'msg'=> '',
+        	'data' => [
+                'work_list' => $work_list,
+                'count' => count($work_list)
+            ]
         ];
 
         return $res;

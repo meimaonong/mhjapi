@@ -81,6 +81,39 @@ class WorkController extends BaseController
 
     }
 
+    // 获取待审作品
+    public function actionGetWaitWorks()
+    {
+        $param = $_REQUEST;
+
+        $res = Work::getWaitWorks($param);
+
+        return $res;
+
+    }
+
+    // 获取已购作品
+    public function actionGetBuyWorks()
+    {
+        $param = $_REQUEST;
+
+        $res = Work::getBuyWorks($param);
+
+        return $res;
+
+    }
+
+    // 获取已售作品
+    public function actionGetSellWorks()
+    {
+        $param = $_REQUEST;
+
+        $res = Work::getSellWorks($param);
+
+        return $res;
+
+    }
+
     // saveWork
     public function actionSaveWork()
     {

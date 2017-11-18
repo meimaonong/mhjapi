@@ -120,7 +120,7 @@ class Album extends \yii\db\ActiveRecord
         $album_title = $param['album_title'];
         $album_des = $param['album_des'];
 
-        $save_id = $album_id;
+        $save_id = '';
 
         if ($user_id && $album_id) {
             $album = static::findOne([
@@ -131,6 +131,7 @@ class Album extends \yii\db\ActiveRecord
             $album->album_title = $album_title;
             $album->album_des = $album_des;
             $album->save();
+
         } else {
 
             $t = Utils::getCurrentDateTime();
@@ -149,7 +150,7 @@ class Album extends \yii\db\ActiveRecord
         $res = [
             'code' => 0,
             'msg'=> '',
-            'data' => $save_id
+            'data' => $album
         ];
 
         return $res;
