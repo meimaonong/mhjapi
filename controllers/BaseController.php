@@ -43,6 +43,7 @@ class BaseController extends Controller
             '/v1/category/get-categorylist',
             '/v1/work/get-worklist-by-category',
             '/v1/work/get-work',
+            '/v1/data/make-data',
         ];
 
         $url = \Yii::$app->request->url;

@@ -72,7 +72,8 @@ class DataController extends BaseController
         ];
     }
 
-    private function getCount($num) {
+    //imgs2
+    /* private function getCount($num) {
         if ($num == 1) {
             return round(600/465, 2);
         } else if ($num == 2) {
@@ -114,11 +115,55 @@ class DataController extends BaseController
         } else if ($num == 20) {
             return round(555/550, 2);
         }
+    } */
+
+    private function getCount($num) {
+        if ($num == 1) {
+            return round(1000/1003, 2);
+        } else if ($num == 2) {
+            return round(1000/744, 2);
+        } else if ($num == 3) {
+            return round(1000/989, 2);
+        } else if ($num == 4) {
+            return round(1000/746, 2);
+        } else if ($num == 5) {
+            return round(1000/1185, 2);
+        } else if ($num == 6) {
+            return round(1000/743, 2);
+        } else if ($num == 7) {
+            return round(1000/1342, 2);
+        } else if ($num == 8) {
+            return round(1000/1205, 2);
+        } else if ($num == 9) {
+            return round(1000/795, 2);
+        } else if ($num == 10) {
+            return round(1000/743, 2);
+        } else if ($num == 11) {
+            return round(1000/750, 2);
+        } else if ($num == 12) {
+            return round(1000/1493, 2);
+        } else if ($num == 13) {
+            return round(1000/795, 2);
+        } else if ($num == 14) {
+            return round(1000/1541, 2);
+        } else if ($num == 15) {
+            return round(1000/1262, 2);
+        } else if ($num == 16) {
+            return round(1000/1223, 2);
+        } else if ($num == 17) {
+            return round(1000/2015, 2);
+        } else if ($num == 18) {
+            return round(1000/1636, 2);
+        } else if ($num == 19) {
+            return round(1000/653, 2);
+        } else if ($num == 20) {
+            return round(1000/1695, 2);
+        }
     }
 
     public function actionMakeData()
     {
-        $pic_url = 'https://www.meimaonong.com/uploads/imgs2/';
+        $pic_url = 'https://www.meimaonong.com/uploads/imgs3/';
         $t = Utils::getCurrentDateTime();
 
         $categorys = Category::find()

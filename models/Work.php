@@ -205,7 +205,12 @@ class Work extends \yii\db\ActiveRecord
             $param['work_id'] = intval($item['work_id']);
             $work = static::find()->where($param)->asArray()->one();
             
-            $item = array_merge($item, $work);
+            $address = Address::find()
+                ->select(['receiver', 'receiver_tel', 'address_detail'])
+                ->where(['address_id' => $item['address']])
+                ->asArray()
+                ->one();
+            $item = array_merge($item, $work, $address);
         }
         
         $res = [
@@ -238,6 +243,7 @@ class Work extends \yii\db\ActiveRecord
             $work = static::find()->where($param)->asArray()->one();
             $address = Address::find()
                 ->select(['receiver', 'receiver_tel', 'address_detail'])
+                ->where(['address_id' => $item['address']])
                 ->asArray()
                 ->one();
             $item = array_merge($item, $work, $address);
