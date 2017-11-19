@@ -41,7 +41,6 @@ class Work extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['work_des'], 'required'],
             [['work_des'], 'string'],
             [['work_check_status', 'work_buy_status', 'category_id', 'user_id', 'album_id', 'del_flag'], 'integer'],
             [['created_time', 'updated_time'], 'safe'],
@@ -383,6 +382,7 @@ class Work extends \yii\db\ActiveRecord
         $work_id = $work['work_id'];
         $user_id = $param['user_id'];
         $work_title = $work['work_title'];
+        $work_des = $work['work_des'];
         $work_img = $work['work_img'];
         $w = $work['w'];
         $h = $work['h'];
@@ -426,6 +426,7 @@ class Work extends \yii\db\ActiveRecord
             $work = new static();
             $work->user_id = $user_id;
             $work->work_title = $work_title;
+            $work->work_des = '';
             $work->work_img = $work_img;
             $work->w = $w;
             $work->h = $h;
@@ -437,8 +438,6 @@ class Work extends \yii\db\ActiveRecord
             $work->save();
 
             $save_id = $work->attributes['work_id'];
-
-            //print_r($workItems);exit;
 
             foreach ($workItems as $workItem) {
                 $workItem['work_id'] = $save_id;
