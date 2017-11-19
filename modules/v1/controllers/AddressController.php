@@ -44,6 +44,15 @@ class AddressController extends BaseController
         return $res;
     }
 
+    public function actionDelAddress()
+    {
+        $param = $_REQUEST;
+
+        $res = Address::delAddress($param);
+
+        return $res;
+    }
+
     // 获取地址列表
     public function actionGetAddresslist()
     {

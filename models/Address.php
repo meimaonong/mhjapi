@@ -38,7 +38,7 @@ class Address extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'province_id', 'city_id', 'district_id'], 'required'],
+            [['user_id'], 'required'],
             [['user_id', 'province_id', 'city_id', 'district_id', 'del_flag'], 'integer'],
             [['created_time', 'updated_time'], 'safe'],
             [['receiver'], 'string', 'max' => 11],
@@ -121,13 +121,13 @@ class Address extends \yii\db\ActiveRecord
             ->one();
 
         if ($address) {
-            $province = District::findOne(['code' => $address['province_id'], 'level'=>2]);
-            $city = District::findOne(['code' => $address['city_id'], 'level'=>3]);
-            $district = District::findOne(['code' => $address['district_id'], 'level'=>4]);
+            // $province = District::findOne(['code' => $address['province_id'], 'level'=>2]);
+            // $city = District::findOne(['code' => $address['city_id'], 'level'=>3]);
+            // $district = District::findOne(['code' => $address['district_id'], 'level'=>4]);
 
-            $address['province_name'] = $province->name;
-            $address['city_name'] = $city->name;
-            $address['district_name'] = $district->name;
+            // $address['province_name'] = $province->name;
+            // $address['city_name'] = $city->name;
+            // $address['district_name'] = $district->name;
 
             $res = [
                 'code' => 0,
@@ -146,6 +146,30 @@ class Address extends \yii\db\ActiveRecord
         return $res;
     }
 
+    public static function delAddress($param) {
+        $user_id = $param['user_id'];
+        $address_id = $param['address_id'];
+
+        $address = Address::findOne([
+            'address_id' => $address_id,
+            'user_id' => $user_id,
+            'del_flag' => 0,
+        ]);
+
+        $address->del_flag = 1;
+        $address->save();
+
+        $save_id = $address->attributes['address_id'];
+
+        $res = [
+            'code' => 0,
+            'msg'=> '',
+            'data' => $save_id
+        ];
+
+        return $res;
+    }
+
     // saveAddress
     public static function saveAddress($param) {
 
@@ -153,9 +177,9 @@ class Address extends \yii\db\ActiveRecord
         $address_id = $param['address_id'];
         $receiver = $param['receiver'];
         $receiver_tel = $param['receiver_tel'];
-        $province_id = $param['province_id'];
-        $city_id = $param['city_id'];
-        $district_id = $param['district_id'];
+        // $province_id = $param['province_id'];
+        // $city_id = $param['city_id'];
+        // $district_id = $param['district_id'];
         $address_detail = $param['address_detail'];
 
         $save_id = $address_id;
@@ -168,9 +192,9 @@ class Address extends \yii\db\ActiveRecord
             ]);
             $address->receiver = $receiver;
             $address->receiver_tel = $receiver_tel;
-            $address->province_id = $province_id;
-            $address->city_id = $city_id;
-            $address->district_id = $district_id;
+            // $address->province_id = $province_id;
+            // $address->city_id = $city_id;
+            // $address->district_id = $district_id;
             $address->address_detail = $address_detail;
             $address->save();
         } else {
@@ -181,9 +205,9 @@ class Address extends \yii\db\ActiveRecord
             $address->user_id = $user_id;
             $address->receiver = $receiver;
             $address->receiver_tel = $receiver_tel;
-            $address->province_id = $province_id;
-            $address->city_id = $city_id;
-            $address->district_id = $district_id;
+            // $address->province_id = $province_id;
+            // $address->city_id = $city_id;
+            // $address->district_id = $district_id;
             $address->address_detail = $address_detail;
             $address->created_time = $t;
             $address->updated_time = $t;
@@ -195,7 +219,7 @@ class Address extends \yii\db\ActiveRecord
         $res = [
             'code' => 0,
             'msg'=> '',
-            'data' => $save_id
+            'data' => $address
         ];
 
         return $res;

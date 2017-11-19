@@ -153,6 +153,7 @@ class User extends \yii\db\ActiveRecord
         $user = User::find()
             ->select([
                 'user_id',
+                'user_name',
                 'tel',
                 'email',
                 'status',
@@ -163,7 +164,7 @@ class User extends \yii\db\ActiveRecord
                 'created_time',
                 'updated_time'
             ])
-            ->where(['user_id'=>$user_id,'status'=>0])
+            ->where(['user_id'=>$user_id,'status'=>0, 'del_flag'=>0])
             ->asArray()
             ->one();
 
