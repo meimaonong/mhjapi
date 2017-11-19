@@ -50,4 +50,30 @@ class SellRecord extends \yii\db\ActiveRecord
             'updated_time' => 'Updated Time',
         ];
     }
+
+    // 前台用户修改资料
+    public static function saveExpress($param)
+    {
+
+        $sell_record_id = $param['sell_record_id'];
+        $express = $param['express'];
+
+        $sell_record = static::findOne([
+            'sell_record_id' => $sell_record_id
+        ]);
+
+        $sell_record->express = $express;
+        $sell_record->save();
+   
+        $save_id = $sell_record->attributes['sell_record_id'];
+
+        $res = [
+        	'code' => 0,
+        	'msg'=> '',
+        	'data' => $save_id
+        ];
+
+        return $res;
+
+    }
 }

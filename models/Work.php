@@ -8,6 +8,7 @@ use app\libs\Utils;
 use app\models\Category;
 use app\models\Album;
 use app\models\SellRecord;
+use app\models\Address;
 
 /**
  * This is the model class for table "work".
@@ -235,8 +236,11 @@ class Work extends \yii\db\ActiveRecord
         foreach ($work_list as &$item) {
             $param['work_id'] = intval($item['work_id']);
             $work = static::find()->where($param)->asArray()->one();
-            
-            $item = array_merge($item, $work);
+            $address = Address::find()
+                ->select(['receiver', 'receiver_tel', 'address_detail'])
+                ->asArray()
+                ->one();
+            $item = array_merge($item, $work, $address);
         }
         
         $res = [
