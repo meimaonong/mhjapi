@@ -43,6 +43,16 @@ class AlbumController extends BaseController
 
     }
 
+    public function actionDelAlbum()
+    {
+        $param = $_REQUEST;
+
+        $res = Album::delAlbum($param);
+
+        return $res;
+
+    }
+
     public function actionSaveAlbum()
     {
         $param = $_REQUEST;

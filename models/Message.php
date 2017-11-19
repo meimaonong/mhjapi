@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use app\libs\Utils;
+use app\models\Work;
 
 /**
  * This is the model class for table "message".
@@ -161,8 +162,22 @@ class Message extends \yii\db\ActiveRecord
         if ($user_id) {
             $messages = static::find()
                 ->where(['user_id'=>$user_id ,'del_flag'=>0])
+                ->orderBy('message_id desc')
                 ->asArray()
                 ->all();
+            
+            foreach ($messages as $key => &$message) {
+                $work = Work::find()
+                    ->where(['work_id' => $message['work_id']])
+                    ->asArray()
+                    ->one();
+                $tmp = static::doRead([
+                    'message_id' => $message['message_id'],
+                    'user_id' => $user_id,
+                    'is_read' => 1
+                ]);
+                $message['work'] = $work;
+            }
         
             $res = [
                 'code' => 0,

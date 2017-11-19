@@ -113,6 +113,30 @@ class Album extends \yii\db\ActiveRecord
 
     }
 
+    public static function delAlbum($param) {
+
+        $user_id = $param['user_id'];
+        $album_id = $param['album_id'];
+
+        $album = static::findOne([
+            'user_id' => $user_id,
+            'album_id' => $album_id,
+        ]);
+
+        $album->save();
+
+        $save_id = $album->attributes['album_id'];
+        
+        $res = [
+            'code' => 0,
+            'msg'=> '',
+            'data' => $save_id
+        ];
+
+        return $res;
+
+    }
+
     public static function saveAlbum($param) {
 
         $user_id = $param['user_id'];
