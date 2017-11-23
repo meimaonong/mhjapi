@@ -323,7 +323,32 @@ class Work extends \yii\db\ActiveRecord
         return $res;
 
     }
+    // backSubmit
+    public static function backSubmit($param)
+    {
+        $user_id = $param['user_id'];
+        $work_id = $param['work_id'];
+        $reason = $param['reason'];
 
+        $work = static::findOne([
+            'work_id' => $work_id,
+            'user_id' => $user_id
+        ]);
+
+        $work->reason = $reason;
+        $work->work_check_status = 2;
+        $work->save();
+
+        $save_id = $work->attributes['work_id'];
+
+        $res = [
+            'code' => 0,
+            'msg' => '保存成功',
+            'data' => $save_id
+        ];
+
+        return $res;
+    }
     // workSubmit
     public static function workSubmit($param)
     {

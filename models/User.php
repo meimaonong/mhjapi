@@ -117,6 +117,12 @@ class User extends \yii\db\ActiveRecord
     // 获取用户列表
     public static function getUsers($param) 
     {
+        $page = $param['page'] ? $param['page'] : 1;
+        $page_size = 20;
+
+        $start = ($page - 1) * $page_size;
+
+        $condition = ['del_flag' => 0];
 
         $user_list = static::find()
             ->select([
@@ -131,17 +137,28 @@ class User extends \yii\db\ActiveRecord
                 'created_time',
                 'updated_time'
             ])
+            ->where($condition)
+            ->limit($page_size, $start)
             ->asArray()
             ->all();
+
+        $count = static::find()
+            ->where($condition)
+            ->count();
         
+        $pages = ceil($count / $page_size);
+
         $res = [
         	'code' => 0,
         	'msg'=> '',
-        	'data' => $user_list
+        	'data' => [
+                'work_list' => $user_list,
+                'pages' => $pages,
+                'currentpage' => $page
+            ]
         ];
 
         return $res;
-
     }
 
     // 获取单个用户
